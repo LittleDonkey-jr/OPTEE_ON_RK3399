@@ -21,7 +21,7 @@ $cd <optee-project>/out
 ```
 编译结果为rockpi4.img
 ##烧录镜像
-若为sd卡烧录，采用[balenaEtcher](./Toolchains/balenaEtcher.exe)烧录
+若为sd卡烧录，采用[balenaEtcher](./Toolchains/balenaEtcher)烧录
 
 #如何移植至其他平台开发板
 firefly-rk3399

@@ -1,6 +1,6 @@
 # OPTEE_ON_RK3399
 ![image](Picture/optee.png)
-OPTEE官方参考文档
+OPTEE官方参考文档  
 https://optee.readthedocs.io/en/latest/building/gits/build.html#step-3-get-the-source-code
 对于我们所使用的RK3399芯片来说  
 使用的参考工程为ROCKPI4B开发板工程,版本应高于3.20.0 所用交叉编译工具链gcc_arm在[Toolchains文件夹](./Toolchains/)中

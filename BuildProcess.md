@@ -116,9 +116,9 @@ parted -s $(BOOT_IMG) \
 	mkpart root fat32 208896 $(p5-end-kib)
 sgdisk -u 7:17d61bff-8fdc-4089-b675-9be21b9f6ac7 $(BOOT_IMG)
 ```
-这里的7：与root所在的分区位置相关，当前为第七分区
+这里的7：与root所在的分区位置相关，当前为第七分区  
 ###修改u-boot_rockpi4.conf
-<a href="./Configs/u-boot_rockpi4.conf">rockpi4.mk点击这里</a>
+<a href="./Configs/u-boot_rockpi4.conf">u-boot_rockpi4.conf点击这里</a>
 ```
 CONFIG_BOOTARGS="console=ttyS2,1500000 root=PARTUUID=17d61bff-8fdc-4089-b675-9be21b9f6ac7 loglevel=6 rootwait"
 CONFIG_DEFAULT_FDT_FILE="/boot/rk3399-rock-pi-4b.dtb"

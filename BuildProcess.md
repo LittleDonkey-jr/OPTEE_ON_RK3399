@@ -22,8 +22,8 @@ $cd <optee-project>/out
 ##烧录镜像
 若为sd卡烧录，采用[balenaEtcher](./Toolchains/balenaEtcher)烧录
 
-#如何移植至其他平台开发板
-firefly-rk3399
+#如何移植至其他平台开发板  
+firefly-rk3399  
 ##1、下载官方sdk、及rootfs
 https://wiki.t-firefly.com/zh_CN/Firefly-RK3399/linux_compile_gpt.html  
 如果没有rootfs请使用瑞芯微解包工具，下载官方镜像解包  

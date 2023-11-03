@@ -1,9 +1,8 @@
 # OPTEE_ON_RK3399
-![image](Picture/optee.png)
+![image](Picture/optee.png)  
 OPTEE官方参考文档  
-https://optee.readthedocs.io/en/latest/building/gits/build.html#step-3-get-the-source-code
-对于我们所使用的RK3399芯片来说  
-使用的参考工程为ROCKPI4B开发板工程,版本应高于3.20.0 所用交叉编译工具链gcc_arm在[Toolchains文件夹](./Toolchains/)中
+https://optee.readthedocs.io/en/latest/building/gits/build.html#step-3-get-the-source-code  
+对于我们所使用的RK3399芯片来说使用的参考工程为ROCKPI4B开发板工程,版本应高于3.20.0 所用交叉编译工具链gcc_arm在[Toolchains文件夹](./Toolchains/)中
 ```
 $ mkdir -p <optee-project>
 $ cd <optee-project>
@@ -26,12 +25,12 @@ $cd <optee-project>/out
 #如何移植至其他平台开发板
 firefly-rk3399
 ##1、下载官方sdk、及rootfs
-https://wiki.t-firefly.com/zh_CN/Firefly-RK3399/linux_compile_gpt.html
-如果没有rootfs请使用瑞芯微解包工具，下载官方镜像解包
-https://www.t-firefly.com/doc/download/page/id/3.html
-##2、SDK编译，获取内核镜像Image，设备树dts，根文件系统rootfs。
-##3、修改optee-project中的设置
-###[1]主要配置文件有两个/u-boot_rockpi4.conf及rockpi4.mk
+https://wiki.t-firefly.com/zh_CN/Firefly-RK3399/linux_compile_gpt.html  
+如果没有rootfs请使用瑞芯微解包工具，下载官方镜像解包  
+https://www.t-firefly.com/doc/download/page/id/3.html  
+##2、SDK编译，获取内核镜像Image，设备树dts，根文件系统rootfs  
+##3、修改optee-project中的设置  
+###[1]主要配置文件有两个/u-boot_rockpi4.conf及rockpi4.mk  
 ```
 cd <optee-project>/build/kconfigs
 sudo vim ./u-boot_rockpi4.conf  

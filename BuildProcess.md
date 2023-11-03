@@ -29,6 +29,7 @@ https://wiki.t-firefly.com/zh_CN/Firefly-RK3399/linux_compile_gpt.html
 如果没有rootfs请使用瑞芯微解包工具，下载官方镜像解包  
 https://www.t-firefly.com/doc/download/page/id/3.html  
 ##2、SDK编译，获取内核镜像Image，设备树dts，根文件系统rootfs  
+预先将这部分文件复制到Ubuntu开发环境中，firefly-rk3399的默认开发环境为Ubuntu18.04.  
 ##3、修改optee-project中的设置  
 ###[1]主要配置文件有两个/u-boot_rockpi4.conf及rockpi4.mk  
 ```
@@ -113,16 +114,19 @@ parted -s $(BOOT_IMG) \
 	mkpart uboot 8192 12288 \
 	mkpart recovery 12288 143360\
 	mkpart backpack 143360 208896\
-	mkpart root fat32 208896 $(p5-end-kib)
+	mkpart rootfs fat32 208896 $(p5-end-kib)
 sgdisk -u 7:17d61bff-8fdc-4089-b675-9be21b9f6ac7 $(BOOT_IMG)
+
+dd if=$(ROOT_IMG) of=$(BOOT_IMG) bs=1kiB seek=208896 conv=notrunc
 ```
 这里的7：与root所在的分区位置相关，当前为第七分区  
+seek设置为rootfs的起始地址  
 ###修改u-boot_rockpi4.conf
 <a href="./Configs/u-boot_rockpi4.conf">u-boot_rockpi4.conf点击这里</a>
 ```
 CONFIG_BOOTARGS="console=ttyS2,1500000 root=PARTUUID=17d61bff-8fdc-4089-b675-9be21b9f6ac7 loglevel=6 rootwait"
 CONFIG_DEFAULT_FDT_FILE="/boot/rk3399-rock-pi-4b.dtb"
-CONFIG_BOOTCOMMAND="setenv bootdev unknown; setenv kernel_addr_gz 0x0a280000; setenv kernel /boot/Image.gz; for d in 1 0; do test ${bootdev} = unknown && echo .. Looking for ${kernel} in mmc ${d}:7 && test -e mmc ${d}:7 ${kernel} && setenv bootdev ${d} && echo .. Found; done; if test ${bootdev} = unknown; then echo .. Kernel not found; else echo .. Loading kernel; ext2load mmc ${bootdev}:7 ${kernel_addr_gz} ${kernel}; unzip ${kernel_addr_gz} ${kernel_addr_r}; echo .. Loading DTB: mmc ${bootdev}:7 ${fdtfile}; ext2load mmc ${bootdev}:7 ${fdt_addr_r} ${fdtfile}; echo .. Booting kernel; booti ${kernel_addr_r} - ${fdt_addr_r}; fi"
+CONFIG_BOOTCOMMAND="setenv bootdev unknown; setenv kernel_addr_gz 0x0a280000; setenv kernel /boot/Image.gz; for d in 1 0; do test ${bootdev} = unknown && echo .. Looking for ${kernel} in mmc ${d}:7 && test -e mmc ${d}:7 ${kernel} && setenv bootdev ${d} && echo .. Found; done; if test ${bootdev} = unknown; then echo .. Kernel not found; else echo .. Loading kernel; ext2load mmc ${bootdev}:7 ${kernel_addr_gz} ${kernel}; unzip ${kernel_addr_gz} ${kernel_addr_r}; echo .. Loading DTB: mmc ${bootdev}:7 ${fdtfile}; ext2load mmc ${bootdev}:7 ${fdt_addr_r} ${fdtfile}; echo .. Booting kernel; booti ${kernel_addr_r} - ${fdt_addr_r}; fi"  
 ```
 第一个参数的PARTUUID与rockpi4.mk中的sgdisk指令对应
 第二个参数选择正确的设备树，这里拷贝了firefly-rk3399的设备树进行了替换
@@ -133,4 +137,6 @@ ext2load mmc ${bootdev}:7 ${kernel_addr_gz} ${kernel}
 ext2load mmc 1:7 0x0a280000 /boot/Image.gz
 ```
 第三个参数设置的kernel_addr_gz为内核镜像加载进内存的地址。  
-在uboot命令行模式中(开机时Ctrl+C)输入指令，可测试合适的加载内存地址，测试0x0a280000可以正确加载
+在uboot命令行模式中(开机时Ctrl+C)输入指令，可测试合适的加载内存地址，测试0x0a280000可以正确加载  
+##编译结果  
+编译出的镜像烧录在SD卡中，然后使用Ubuntu系统挂载SD卡，将之前官方镜像导出的Image.gz以及rootfs和firefly-rk3399.dtb文件按照正确的文件路径拷贝进SD卡中.  
